@@ -5,204 +5,141 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fiendship day</title>
 
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-
+   <style>
+    body {
+    font-family: Arial, sans-serif;
    
-        margin: 0;
-        background-color: #f0f0f0;
-      }
+      height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
 
-      .chat-container {
-        background-color: red;
-        margin: 0px auto;
-        width: 600px;
-        /* max-width: 100%; */
-     
-        background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        
-      }
-
-      .chat-header {
-        background: #007bff;
-        color: #fff;
-        /* padding: 15px; */
-        padding:0px;
-        font-size: 1.5rem;
-        text-align: center;
-      }
-
-      .chat-box {
-        max-height: 65vh;
-        height: 70vh;
-        padding: 15px;
-        overflow-y: auto;
-        background: #f9f9f9;
-      }
-
-      .message {
-        margin-bottom: 2.3rem;
-        padding: 10px;
-        font-size: 3rem;
-        border-radius: 10px;
-        position: relative;
-        max-width: 80%;
-        text-wrap: balance ;
-        text-overflow: ellipsis;
+.chat-container {
+    width: 400px;
+    margin: auto;
+    max-width: 100%;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100vh;
     
-      }
+   
+}
 
-      .message p {
-        margin: 0;
-      }
+.chat-header {
+    background: #007bff;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+}
 
-      .message.sent {
-        background: #007bff;
-        color: #fff;
-        margin-left: auto;
-      }
+.chat-box {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f9f9f9;
+}
 
-      .message.received {
-        background: #e1e1e1;
-        color: #333;
-        margin-right: auto;
-      }
+.message {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    position: relative;
+    max-width: 80%;
+}
 
-      .time {
-        font-size: 1rem;
-        position: absolute;
-        bottom: -20px;
-        right: 10px;
-        color: black;
-      }
+.message p {
+    margin: 0;
+}
 
-      .chat-input {
-        display: flex;
-        padding: 15px;
-        border-top: 1px solid #ddd;
-      }
+.message.sent {
+    background: #007bff;
+    color: #fff;
+    margin-left: auto;
+}
 
-      .chat-input input {
-        flex: 1;
-        padding: 1rem;
-        border: 1px solid #ddd;
-        border-radius: 20px;
-        margin-right: 10px;
-        font-size: 2rem;
-      }
-      .chat-input input::placeholder {
-        font-size: 1.8rem;
-      }
-      .chat-input button {
-        padding: 10px 20px;
-        background: #007bff;
-        border: none;
-        font-size: 2rem;
-        color: #fff;
-        border-radius: 20px;
-        cursor: pointer;
-      }
+.message.received {
+    background: #e1e1e1;
+    color: #333;
+    margin-right: auto;
+}
 
-      .chat-input button:hover {
-        background: #0056b3;
-      }
+.time {
+    font-size: 12px;
+    position: absolute;
+    bottom: -20px;
+    right: 10px;
+    color: black;
+}
 
-      /* Responsive Design */
+.chat-input {
+    display: flex;
+    padding: 15px;
+    border-top: 1px solid #ddd;
+}
 
-      @media (max-width: 400px) {
-        .chat-container {
-        
-          width: 375px;
-          height: 100%;
-          border-radius: 0;
-          box-shadow: none;
-        }
+.chat-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    margin-right: 10px;
+}
 
-        .chat-input {
-          padding: 10px;
-          width: "400px";
-        }
+.chat-input button {
+    padding: 10px 20px;
+    background: #007bff;
+    border: none;
+    color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+}
 
-        .chat-input input {
-          margin-right: 5px;
-          font-size: 1rem;
-        }
+.chat-input button:hover {
+    background: #0056b3;
+}
 
-        .chat-input input::placeholder{
-           font-size: 1rem;
-        }
+/* Responsive Design */
 
-        .chat-input button {
-         padding: 5px 14px;
-         font-size: 1rem;
-        }
+@media (max-width: 768px) {
+    .chat-container {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        box-shadow: none;
+    }
 
-        .chat-box {
-          padding: 10px;
-        }
+    .chat-input {
+        padding: 10px;
+    }
 
-        .message {
-          margin-bottom: 15px;
-          padding: 8px ;
-          font-size: 1.2rem;
-        }
+    .chat-input input {
+        margin-right: 5px;
+    }
 
-        .time {
-          font-size: 10px;
-          bottom: -15px;
-        }
-      }
+    .chat-input button {
+        padding: 10px 15px;
+    }
 
-      @media (max-width: 1000px) {
-        .chat-container {
-        
-          width: 800px;
-          height: 100%;
-          border-radius: 0;
-          box-shadow: none;
-        }
+    .chat-box {
+        padding: 10px;
+    }
 
-        .chat-input {
-          padding: 10px;
-          width: "400px";
-        }
+    .message {
+        margin-bottom: 15px;
+        padding: 8px;
+    }
 
-        .chat-input input {
-          margin-right: 5px;
-          font-size: 1rem;
-        }
+    .time {
+        font-size: 10px;
+        bottom: -15px;
+    }
+}
 
-        .chat-input input::placeholder{
-           font-size: 1rem;
-        }
-
-        .chat-input button {
-         padding: 5px 14px;
-         font-size: 1rem;
-        }
-
-        .chat-box {
-          padding: 10px;
-        }
-
-        .message {
-          margin-bottom: 15px;
-          padding: 8px ;
-          font-size: 1.2rem;
-        }
-
-        .time {
-          font-size: 10px;
-          bottom: -15px;
-        }
-      }
-    </style>
+   </style>
   </head>
   <body>
     <div class="chat-container">
