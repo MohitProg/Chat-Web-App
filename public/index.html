@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fiendship day</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+
+   
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+
+      .chat-container {
+        background-color: red;
+        margin: 0px auto;
+        width: 600px;
+        /* max-width: 100%; */
+     
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        
+      }
+
+      .chat-header {
+        background: #007bff;
+        color: #fff;
+        /* padding: 15px; */
+        padding:0px;
+        font-size: 1.5rem;
+        text-align: center;
+      }
+
+      .chat-box {
+        max-height: 65vh;
+        height: 70vh;
+        padding: 15px;
+        overflow-y: auto;
+        background: #f9f9f9;
+      }
+
+      .message {
+        margin-bottom: 2.3rem;
+        padding: 10px;
+        font-size: 3rem;
+        border-radius: 10px;
+        position: relative;
+        max-width: 80%;
+        text-wrap: balance ;
+        text-overflow: ellipsis;
+    
+      }
+
+      .message p {
+        margin: 0;
+      }
+
+      .message.sent {
+        background: #007bff;
+        color: #fff;
+        margin-left: auto;
+      }
+
+      .message.received {
+        background: #e1e1e1;
+        color: #333;
+        margin-right: auto;
+      }
+
+      .time {
+        font-size: 1rem;
+        position: absolute;
+        bottom: -20px;
+        right: 10px;
+        color: black;
+      }
+
+      .chat-input {
+        display: flex;
+        padding: 15px;
+        border-top: 1px solid #ddd;
+      }
+
+      .chat-input input {
+        flex: 1;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        margin-right: 10px;
+        font-size: 2rem;
+      }
+      .chat-input input::placeholder {
+        font-size: 1.8rem;
+      }
+      .chat-input button {
+        padding: 10px 20px;
+        background: #007bff;
+        border: none;
+        font-size: 2rem;
+        color: #fff;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+
+      .chat-input button:hover {
+        background: #0056b3;
+      }
+
+      /* Responsive Design */
+
+      @media (max-width: 400px) {
+        .chat-container {
+        
+          width: 375px;
+          height: 100%;
+          border-radius: 0;
+          box-shadow: none;
+        }
+
+        .chat-input {
+          padding: 10px;
+          width: "400px";
+        }
+
+        .chat-input input {
+          margin-right: 5px;
+          font-size: 1rem;
+        }
+
+        .chat-input input::placeholder{
+           font-size: 1rem;
+        }
+
+        .chat-input button {
+         padding: 5px 14px;
+         font-size: 1rem;
+        }
+
+        .chat-box {
+          padding: 10px;
+        }
+
+        .message {
+          margin-bottom: 15px;
+          padding: 8px ;
+          font-size: 1.2rem;
+        }
+
+        .time {
+          font-size: 10px;
+          bottom: -15px;
+        }
+      }
+
+      @media (max-width: 1000px) {
+        .chat-container {
+        
+          width: 800px;
+          height: 100%;
+          border-radius: 0;
+          box-shadow: none;
+        }
+
+        .chat-input {
+          padding: 10px;
+          width: "400px";
+        }
+
+        .chat-input input {
+          margin-right: 5px;
+          font-size: 1rem;
+        }
+
+        .chat-input input::placeholder{
+           font-size: 1rem;
+        }
+
+        .chat-input button {
+         padding: 5px 14px;
+         font-size: 1rem;
+        }
+
+        .chat-box {
+          padding: 10px;
+        }
+
+        .message {
+          margin-bottom: 15px;
+          padding: 8px ;
+          font-size: 1.2rem;
+        }
+
+        .time {
+          font-size: 10px;
+          bottom: -15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chat-container">
+      <div class="chat-header">
+        <p>Chat App</p>
+        <p id="Top_head"></p>
+      </div>
+      <div class="chat-box">
+        <!-- <div class="message received" id="get_message">
+          <p>Hello! How are you?</p>
+          <span class="time">10:00 AM</span>
+        </div>
+        <div class="message sent" id="sent_message">
+          <p>I'm good, thanks! How about you?</p>
+          <span class="time">10:02 AM</span>
+        </div> -->
+      </div>
+
+  
+      <div class="chat-input">
+        <input required type="text" id="inputfiled" placeholder="Type a message" />
+        <button id="sendbtn">Send</button>
+      </div>
+
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const sendbtn = document.getElementById("sendbtn");
+      const inputfield = document.getElementById("inputfiled");
+      const sendmessage = document.getElementById("sent_message");
+      const getmessage = document.getElementById("get_message");
+      const chatbox=document.querySelector(".chat-box")
+      const TopHead=document.getElementById("Top_head")
+    
+      function formatTime() {
+        const date = new Date();
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let period = "AM";
+
+        if (hours >= 12) {
+          period = "PM";
+          if (hours > 12) {
+            hours -= 12;
+          }
+        }
+
+        if (hours === 0) {
+          hours = 12;
+        }
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        return `${hours}:${minutes} ${period}`;
+      }
+
+      let messagearray = [];
+
+      const socket = io();
+      socket.on("onjoin", (msg) => {
+        console.log(msg);
+        TopHead.innerText=msg
+
+      });
+
+      sendbtn.addEventListener("click", () => {
+        if (inputfield.value.length > 0) {
+          socket.emit("message", [socket.id, inputfield.value]);
+          inputfield.value=""
+          
+        }else{
+alert("please write msg first")
+        }
+      });
+
+  
+
+      socket.on("recieved", (msg) => {
+      
+
+        const msgobj = {
+          msg: "",
+          type: "",
+          time: "",
+          id: "",
+        };
+
+        msgobj.msg = msg[1];
+        msgobj.type = "recievedmsg";
+        msgobj.time = formatTime();
+        msgobj.id = msg[0];
+        messagearray.push(msgobj);
+        localStorage.setItem("msgArray",JSON.stringify(messagearray));
+        let messageHTML = '';
+        if(messagearray.length>0){
+            messagearray.forEach((value) => {
+
+        if (value.id !== socket.id) {
+            messageHTML = `
+                <div class="message received">
+                    <p>${value.msg}</p>
+                    <span class="time">${value.time}</span>
+                </div>
+            `;
+        } else {
+            messageHTML = `
+                <div class="message sent">
+                    <p>${value.msg}</p>
+                    <span class="time">${value.time}</span>
+                </div>
+            `;
+        }
+       
+      })
+      chatbox.innerHTML += messageHTML
+    }
+    
+        }
+      );
+     
+
+      const  datarray=JSON.parse(localStorage.getItem("msgArray"))
+      console.log(datarray)
+
+
+   
+   
+
+      
+    </script>
+  </body>
+</html>
